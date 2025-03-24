@@ -101,5 +101,9 @@ if __name__ == "__main__":
     parser.add_argument("--master_add", required=True, help="Master address for MPI")
     args = parser.parse_args()
 
+    set_mpi(args.master_add)
+    torch.cuda.set_device(int(os.environ["LOCAL_RANK"]))
+    print(f"Hostname: {socket.gethostname()}, Rank: {os.environ['RANK']}, Device: cuda:{os.environ['LOCAL_RANK']}")
+
     config = load_config(args.config)
     main(config)
